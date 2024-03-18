@@ -10,7 +10,7 @@ const UserException = {
 };
 
 const ItemExeption = {
-  InvalidIdToken: createException('Invalid ID Token', 400),
+  NoExistsItem: createException('No Exist Item', 400),
 };
 
 const ReservationExeption = {};

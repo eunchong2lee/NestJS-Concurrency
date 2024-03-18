@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { UserRepository } from './user.repository';
 import { createUserDto } from './dto/createUser.dto';
@@ -29,9 +29,11 @@ export class UserService {
   async remove(id: number) {
     try {
       const user = await this.findOne(id);
+      if (!user) throw exceptions.User.NoExistsUser;
+
       return await this.userRepository.remove(user);
     } catch (err) {
-      throw exceptions.User.NoExistsUser;
+      throw new BadRequestException('Bad Request');
     }
   }
 }

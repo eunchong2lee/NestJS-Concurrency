@@ -25,8 +25,8 @@ export class ItemRepository {
     return await this.itemRepository.update(id, options);
   }
 
-  async delete(id) {
-    return await this.itemRepository.delete(id);
+  async remove(item: Item) {
+    return await this.itemRepository.remove(item);
   }
 
   async query(options) {
