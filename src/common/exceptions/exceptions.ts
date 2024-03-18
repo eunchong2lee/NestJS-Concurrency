@@ -13,7 +13,11 @@ const ItemExeption = {
   NoExistsItem: createException('No Exist Item', 400),
 };
 
-const ReservationExeption = {};
+const ReservationExeption = {
+  TransactionError: createException('Transaction Error', 400),
+  NoExistsUserOrItem: createException('No Exist User Or Item', 400),
+  NoExistsItemQuantity: createException('No Exist Item Quantity', 400),
+};
 
 export default {
   User: UserException,

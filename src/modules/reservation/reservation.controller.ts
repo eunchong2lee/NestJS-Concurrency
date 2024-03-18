@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { Reservation } from './entities/reservation.entity';
 import { ReservationService } from './reservation.service';
+import { createResevationDto } from './dto/createReservation.dto';
 
 @Controller('reservations')
 export class ReservationController {
@@ -21,16 +22,19 @@ export class ReservationController {
 
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<Reservation> {
-    return await this.reservationService.findOne(+id);
+    return await this.reservationService.findOne(id);
   }
 
   @Post()
-  async create(@Body() reservation: Reservation): Promise<Reservation> {
+  async create(@Body() reservation: createResevationDto) {
+    //   async create(@Body() reservation: createResevationDto): Promise<Reservation> {
     return await this.reservationService.create(reservation);
   }
 
-  @Post()
-  async createWait(@Body() reservation: Reservation): Promise<Reservation> {
+  @Post('/waiting')
+  async createWait(
+    @Body() reservation: createResevationDto,
+  ): Promise<Reservation> {
     return await this.reservationService.createWait(reservation);
   }
 

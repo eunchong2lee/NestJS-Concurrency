@@ -13,5 +13,5 @@ export const typeORMConfig: TypeOrmModuleOptions = {
   database: process.env.DB_DATABASE,
   entities: [User, Item, Reservation],
   logging: true,
-  synchronize: false,
+  synchronize: true,
 };

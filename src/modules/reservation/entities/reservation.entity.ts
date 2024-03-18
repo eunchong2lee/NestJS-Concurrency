@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  JoinColumn,
+} from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Item } from '../../item/entities/item.entity';
 
@@ -11,8 +18,9 @@ export class Reservation {
   user: User;
 
   @ManyToOne(() => Item, (item) => item.reservations)
+  @JoinColumn({ name: 'item_id' })
   item: Item;
 
-  @Column({ type: 'date' })
+  @CreateDateColumn()
   reservation_date: Date;
 }

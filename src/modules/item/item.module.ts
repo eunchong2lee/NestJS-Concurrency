@@ -9,5 +9,6 @@ import { ItemRepository } from './item.repository';
   imports: [TypeOrmModule.forFeature([Item])],
   controllers: [ItemController],
   providers: [ItemService, ItemRepository],
+  exports: [ItemRepository],
 })
 export class ItemModule {}

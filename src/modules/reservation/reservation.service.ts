@@ -1,40 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { Reservation } from './entities/reservation.entity';
 import { ReservationRepository } from './reservation.repository';
-import { InjectDataSource } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
+import { createResevationDto } from './dto/createReservation.dto';
 
 @Injectable()
 export class ReservationService {
-  constructor(
-    private readonly reservationRepository: ReservationRepository,
-    @InjectDataSource() private readonly dataSource: DataSource,
-  ) {}
+  constructor(private readonly reservationRepository: ReservationRepository) {}
 
   async findAll(): Promise<Reservation[]> {
-    let options;
-    return await this.reservationRepository.find(options);
+    return await this.reservationRepository.find('');
   }
 
   async findOne(id: number): Promise<Reservation> {
-    return await this.reservationRepository.findOne(id);
+    return await this.reservationRepository.findOne({
+      where: { id },
+      relations: ['user', 'item'],
+    });
   }
 
-  async create(reservation: Reservation): Promise<Reservation> {
-    try {
-      return await this.reservationRepository.save(reservation);
-    } catch (err) {}
+  async create(reservation: createResevationDto): Promise<Reservation> {
+    const { user_id, item_id } = reservation;
+
+    return await this.reservationRepository.createReservation(user_id, item_id);
   }
 
-  async createWait(reservation: Reservation): Promise<Reservation> {
+  async createWait(reservation: createResevationDto): Promise<Reservation> {
     try {
-      const delayedTask = () => {
-        console.log('10 seconds');
-      };
+      const { user_id, item_id } = reservation;
 
-      setTimeout(delayedTask, 10000);
-
-      return await this.reservationRepository.save(reservation);
+      return await this.reservationRepository.createWaitReservation(
+        user_id,
+        item_id,
+      );
     } catch (err) {}
   }
 
