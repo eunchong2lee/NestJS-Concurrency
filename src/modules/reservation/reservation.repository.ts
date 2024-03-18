@@ -47,7 +47,7 @@ export class ReservationRepository {
 
     await queryRunner.connect();
 
-    await queryRunner.startTransaction();
+    await queryRunner.startTransaction('SERIALIZABLE');
 
     try {
       const [user, item] = await Promise.all([
@@ -95,7 +95,7 @@ export class ReservationRepository {
 
     await queryRunner.connect();
 
-    await queryRunner.startTransaction();
+    await queryRunner.startTransaction('SERIALIZABLE');
 
     try {
       const [user, item] = await Promise.all([
@@ -111,11 +111,11 @@ export class ReservationRepository {
         throw new Error('No Exist Item Quantity');
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 10000));
-
       const updatedItem = await queryRunner.manager.update(Item, item.id, {
         quantity: item.quantity - 1,
       });
+
+      await new Promise((resolve) => setTimeout(resolve, 10000));
 
       const createReservation = await queryRunner.manager.save(Reservation, {
         user: user,
