@@ -33,11 +33,11 @@ export class ReservationRepository {
     return await this.reservationRepository.query(options);
   }
 
-  async createReservation(user_id, item_id) {
-    return;
-  }
+  //   async createReservation(user_id, item_id) {
+  //     return;
+  //   }
 
-  async createWaitReservation(user_id, item_id) {
-    return;
-  }
+  //   async createWaitReservation(user_id, item_id) {
+  //     return;
+  //   }
 }

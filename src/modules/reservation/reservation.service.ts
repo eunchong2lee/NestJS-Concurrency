@@ -42,7 +42,10 @@ export class ReservationService {
     try {
       const [user, item] = await Promise.all([
         this.userRepository.findOne({ where: { id: user_id } }),
-        this.itemRepository.findOne({ where: { id: item_id } }),
+        queryRunner.manager.findOne(Item, {
+          where: { id: item_id },
+          lock: { mode: 'pessimistic_write' },
+        }),
       ]);
 
       if (!user || !item) {
@@ -91,7 +94,10 @@ export class ReservationService {
     try {
       const [user, item] = await Promise.all([
         this.userRepository.findOne({ where: { id: user_id } }),
-        this.itemRepository.findOne({ where: { id: item_id } }),
+        queryRunner.manager.findOne(Item, {
+          where: { id: item_id },
+          lock: { mode: 'pessimistic_write' },
+        }),
       ]);
 
       if (!user || !item) {
