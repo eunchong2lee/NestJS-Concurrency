@@ -24,8 +24,8 @@ export class UserRepository {
     return await this.userRepository.update(id, options);
   }
 
-  async delete(id) {
-    return await this.userRepository.delete(id);
+  async remove(user: User) {
+    return await this.userRepository.remove(user);
   }
 
   async query(options) {

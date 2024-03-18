@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { Reservation } from './entities/reservation.entity';
 import { ReservationService } from './reservation.service';
 
@@ -7,22 +15,27 @@ export class ReservationController {
   constructor(private readonly reservationService: ReservationService) {}
 
   @Get()
-  findAll(): Promise<Reservation[]> {
-    return this.reservationService.findAll();
+  async findAll(): Promise<Reservation[]> {
+    return await this.reservationService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Reservation> {
-    return this.reservationService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Reservation> {
+    return await this.reservationService.findOne(+id);
   }
 
   @Post()
-  create(@Body() reservation: Reservation): Promise<Reservation> {
-    return this.reservationService.create(reservation);
+  async create(@Body() reservation: Reservation): Promise<Reservation> {
+    return await this.reservationService.create(reservation);
+  }
+
+  @Post()
+  async createWait(@Body() reservation: Reservation): Promise<Reservation> {
+    return await this.reservationService.createWait(reservation);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.reservationService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return await this.reservationService.remove(id);
   }
 }

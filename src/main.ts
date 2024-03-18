@@ -1,7 +1,8 @@
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { setupSwagger } from './utils/swagger';
+import { ExceptionsFilter } from './common/exceptions/exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,6 +20,8 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+
+  // app.useGlobalFilters(new ExceptionsFilter());
 
   setupSwagger(app);
 

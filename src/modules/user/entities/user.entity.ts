@@ -9,6 +9,8 @@ export class User {
   @Column()
   username: string;
 
-  @OneToMany(() => Reservation, (reservation) => reservation.user)
+  @OneToMany(() => Reservation, (reservation) => reservation.user, {
+    cascade: true,
+  })
   reservations: Reservation[];
 }

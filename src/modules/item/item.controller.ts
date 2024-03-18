@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { Item } from './entities/item.entity';
 import { ItemService } from './item.service';
 
@@ -12,8 +20,8 @@ export class ItemController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Item> {
-    return this.itemService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<Item> {
+    return this.itemService.findOne(id);
   }
 
   @Post()
@@ -22,7 +30,7 @@ export class ItemController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
+  remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.itemService.remove(+id);
   }
 }
