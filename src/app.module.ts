@@ -4,6 +4,7 @@ import { typeORMConfig } from './config/typeorm.config';
 import { UserModule } from './modules/user/user.module';
 import { ItemModule } from './modules/item/item.module';
 import { ReservationModule } from './modules/reservation/reservation.module';
+import { TransactionModule } from './modules/transaction/transaction.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { ReservationModule } from './modules/reservation/reservation.module';
     UserModule,
     ItemModule,
     ReservationModule,
+    TransactionModule,
   ],
   controllers: [],
   providers: [],
