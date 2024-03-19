@@ -12,7 +12,6 @@ import { Request, Response } from 'express';
 export class ExceptionsFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-
     const request: Request = ctx.getRequest();
     const response: Response = ctx.getResponse();
 
@@ -24,7 +23,7 @@ export class ExceptionsFilter implements ExceptionFilter {
     response.status(status).json({
       statusCode: status,
       timestamp: new Date().toISOString(),
-      path: request.url,
+      message: exception.message,
     });
   }
 }

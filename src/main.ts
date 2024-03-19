@@ -28,7 +28,7 @@ async function bootstrap() {
     }),
   );
 
-  // app.useGlobalFilters(new ExceptionsFilter());
+  app.useGlobalFilters(new ExceptionsFilter());
 
   setupSwagger(app);
 
