@@ -3,8 +3,15 @@ import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { setupSwagger } from './utils/swagger';
 import { ExceptionsFilter } from './common/exceptions/exception.filter';
+import {
+  initializeTransactionalContext,
+  patchTypeORMRepositoryWithBaseRepository,
+} from 'typeorm-transactional-cls-hooked';
 
 async function bootstrap() {
+  initializeTransactionalContext(); // Initialize cls-hooked
+  patchTypeORMRepositoryWithBaseRepository(); // patch Repository with BaseRepository.
+
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({

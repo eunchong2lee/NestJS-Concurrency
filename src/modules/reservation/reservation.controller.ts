@@ -26,16 +26,8 @@ export class ReservationController {
   }
 
   @Post()
-  async create(@Body() reservation: createResevationDto) {
-    //   async create(@Body() reservation: createResevationDto): Promise<Reservation> {
+  async create(@Body() reservation: createResevationDto): Promise<Reservation> {
     return await this.reservationService.create(reservation);
-  }
-
-  @Post('/waiting')
-  async createWait(
-    @Body() reservation: createResevationDto,
-  ): Promise<Reservation> {
-    return await this.reservationService.createWait(reservation);
   }
 
   @Delete(':id')

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { Reservation } from './entities/reservation.entity';
 
 @Injectable()
@@ -8,6 +8,8 @@ export class ReservationRepository {
   constructor(
     @InjectRepository(Reservation)
     private reservationRepository: Repository<Reservation>,
+
+    @InjectDataSource() private readonly dataSource: DataSource,
   ) {}
   async save(options) {
     return await this.reservationRepository.save(options);
@@ -33,11 +35,25 @@ export class ReservationRepository {
     return await this.reservationRepository.query(options);
   }
 
-  //   async createReservation(user_id, item_id) {
-  //     return;
-  //   }
+  async createQueryRunner() {
+    return this.dataSource.createQueryRunner();
+  }
 
-  //   async createWaitReservation(user_id, item_id) {
-  //     return;
-  //   }
+  async runTransaction<T>(
+    callback: (queryRunner: QueryRunner) => Promise<T>,
+  ): Promise<T> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction('SERIALIZABLE');
+    try {
+      const result = await callback(queryRunner);
+      await queryRunner.commitTransaction();
+      return result;
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      throw err;
+    } finally {
+      await queryRunner.release();
+    }
+  }
 }
