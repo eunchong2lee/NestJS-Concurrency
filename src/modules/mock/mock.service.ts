@@ -11,9 +11,21 @@ export class MockService {
   }
 
   async initialize() {
+    const mocks = await this.mockRepository.find('');
+    if (!mocks.length) {
+      await Promise.all([
+        this.mockRepository.save({ value: 20 }),
+        this.mockRepository.save({ value: 200 }),
+        this.mockRepository.save({ value: 20 }),
+        this.mockRepository.save({ value: 20 }),
+      ]);
+    }
+
     await Promise.all([
       this.mockRepository.update(1, { value: 20 }),
       this.mockRepository.update(2, { value: 200 }),
+      this.mockRepository.update(3, { value: 20 }),
+      this.mockRepository.update(4, { value: 20 }),
     ]);
 
     return 'complete';
@@ -24,6 +36,6 @@ export class MockService {
   }
 
   async remove(id: number) {
-    return await this.mockRepository.delete(id);
+    return await this.mockRepository.delete([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   }
 }

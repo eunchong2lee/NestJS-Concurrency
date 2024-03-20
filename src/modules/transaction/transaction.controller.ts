@@ -12,17 +12,17 @@ export class TransactionController {
 
   @Get('dirty-read')
   async dirtyRead() {
-    return this.transactionService.dirtyRead();
+    return this.transactionService.dirtyReadTest();
   }
 
   @Get('non-repeatable-read')
   async nonRepeatableRead() {
-    return this.transactionService.nonRepeatableRead();
+    return this.transactionService.nonRepeatableReadTest();
   }
 
   @Get('phantom-read')
   async phantomRead() {
-    return this.transactionService.phantomRead();
+    return this.transactionService.phantomReadTest();
   }
 
   @Get('read-uncommitted')
