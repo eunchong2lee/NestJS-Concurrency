@@ -16,8 +16,6 @@ export class ReservationService {
     private readonly reservationRepository: ReservationRepository,
     private readonly userRepository: UserRepository,
     private readonly itemRepository: ItemRepository,
-
-    @InjectDataSource() private readonly dataSource: DataSource,
   ) {}
 
   async findAll(): Promise<Reservation[]> {
@@ -57,8 +55,10 @@ export class ReservationService {
     const { user_id, item_id } = reservation;
 
     const [user, item] = await Promise.all([
-      this.userRepository.findOne({ where: { id: user_id } }),
-      queryRunner.manager.findOne(Item, {
+      this.userRepository.queryRunnerFindOne(queryRunner, {
+        where: { id: user_id },
+      }),
+      this.itemRepository.queryRunnerFindOne(queryRunner, {
         where: { id: item_id },
         lock: { mode: 'pessimistic_write' },
       }),
@@ -72,14 +72,18 @@ export class ReservationService {
       throw new Error('No Exist Item Quantity');
     }
 
-    const updatedItem = await queryRunner.manager.update(Item, item.id, {
+    await this.itemRepository.queryRunnerUpdate(queryRunner, item.id, {
       quantity: item.quantity - 1,
     });
 
-    const createReservation = await queryRunner.manager.save(Reservation, {
-      user: user,
-      item: item,
-    });
+    const createReservation = await this.reservationRepository.queryRunnerSave(
+      queryRunner,
+      {
+        user: user,
+        item: item,
+      },
+    );
+
     return createReservation;
   }
 

@@ -35,21 +35,21 @@ export class ReservationRepository {
     return await this.reservationRepository.query(options);
   }
 
-  // async queryRunnerSave(queryRunner: QueryRunner, options) {
-  //   return await queryRunner.manager.save(Mock, options);
-  // }
+  async queryRunnerSave(queryRunner: QueryRunner, options) {
+    return await queryRunner.manager.save(Reservation, options);
+  }
 
-  // async queryRunnerUpdate(queryRunner: QueryRunner, id, options) {
-  //   return await queryRunner.manager.update(Mock, id, options);
-  // }
+  async queryRunnerUpdate(queryRunner: QueryRunner, id, options) {
+    return await queryRunner.manager.update(Reservation, id, options);
+  }
 
-  // async queryRunnerFind(queryRunner: QueryRunner, options) {
-  //   return await queryRunner.manager.find(Mock, options);
-  // }
+  async queryRunnerFind(queryRunner: QueryRunner, options) {
+    return await queryRunner.manager.find(Reservation, options);
+  }
 
-  // async queryRunnerFindOne(queryRunner: QueryRunner, options) {
-  //   return await queryRunner.manager.findOne(Mock, options);
-  // }
+  async queryRunnerFindOne(queryRunner: QueryRunner, options) {
+    return await queryRunner.manager.findOne(Reservation, options);
+  }
 
   async runTransaction<T>(
     callback: (queryRunner: QueryRunner) => Promise<T>,
