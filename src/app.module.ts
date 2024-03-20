@@ -5,6 +5,7 @@ import { UserModule } from './modules/user/user.module';
 import { ItemModule } from './modules/item/item.module';
 import { ReservationModule } from './modules/reservation/reservation.module';
 import { TransactionModule } from './modules/transaction/transaction.module';
+import { MockModule } from './mock/mock.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { TransactionModule } from './modules/transaction/transaction.module';
     ItemModule,
     ReservationModule,
     TransactionModule,
+    MockModule,
   ],
   controllers: [],
   providers: [],

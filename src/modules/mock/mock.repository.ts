@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
-import { Mock } from './entities/mock.entity';
+import { Mock } from '../transaction/entities/mock.entity';
+import { IsolationLevelType } from '../transaction/type/isolationLevel.type';
 
 @Injectable()
 export class MockRepository {
@@ -40,14 +41,34 @@ export class MockRepository {
   }
 
   async runTransaction<T>(
+    isolation_level,
     callback: (queryRunner: QueryRunner) => Promise<T>,
   ): Promise<T> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
-    await queryRunner.startTransaction('SERIALIZABLE');
+    await queryRunner.startTransaction(isolation_level);
     try {
       const result = await callback(queryRunner);
       await queryRunner.commitTransaction();
+      return result;
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      throw err;
+    } finally {
+      await queryRunner.release();
+    }
+  }
+
+  async rollbackTransaction<T>(
+    isolation_level: IsolationLevelType,
+    callback: (queryRunner: QueryRunner) => Promise<T>,
+  ): Promise<T> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction(isolation_level);
+    try {
+      const result = await callback(queryRunner);
+      await queryRunner.rollbackTransaction();
       return result;
     } catch (err) {
       await queryRunner.rollbackTransaction();
