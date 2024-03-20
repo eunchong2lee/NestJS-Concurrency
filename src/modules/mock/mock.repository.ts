@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
-import { Mock } from '../transaction/entities/mock.entity';
+import { Mock } from './entities/mock.entity';
 import { IsolationLevelType } from '../transaction/type/isolationLevel.type';
 
 @Injectable()
