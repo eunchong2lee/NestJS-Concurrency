@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { MockService } from './mock.service';
@@ -17,6 +18,11 @@ export class MockController {
   @Get()
   async findAll() {
     return this.mockService.findAll();
+  }
+
+  @Patch('initialize')
+  async initialize() {
+    return this.mockService.initialize();
   }
 
   @Post()

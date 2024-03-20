@@ -5,6 +5,11 @@ import { TransactionService } from './transaction.service';
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
+  @Get('rollback')
+  async rollback() {
+    return this.transactionService.rollback();
+  }
+
   @Get('dirty-read')
   async dirtyRead() {
     return this.transactionService.dirtyRead();

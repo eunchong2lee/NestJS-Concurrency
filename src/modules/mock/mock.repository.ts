@@ -36,8 +36,20 @@ export class MockRepository {
     return await this.mockRepository.query(options);
   }
 
-  async createQueryRunner() {
-    return this.dataSource.createQueryRunner();
+  async queryRunnerSave(queryRunner: QueryRunner, options) {
+    return await queryRunner.manager.save(Mock, options);
+  }
+
+  async queryRunnerUpdate(queryRunner: QueryRunner, id, options) {
+    return await queryRunner.manager.update(Mock, id, options);
+  }
+
+  async queryRunnerFind(queryRunner: QueryRunner, options) {
+    return await queryRunner.manager.find(Mock, options);
+  }
+
+  async queryRunnerFindOne(queryRunner: QueryRunner, options) {
+    return await queryRunner.manager.findOne(Mock, options);
   }
 
   async runTransaction<T>(

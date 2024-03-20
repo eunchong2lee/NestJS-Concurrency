@@ -10,6 +10,15 @@ export class MockService {
     return await this.mockRepository.find('');
   }
 
+  async initialize() {
+    await Promise.all([
+      this.mockRepository.update(1, { value: 20 }),
+      this.mockRepository.update(2, { value: 200 }),
+    ]);
+
+    return 'complete';
+  }
+
   async create(mock: createMockDto) {
     return await this.mockRepository.save(mock);
   }

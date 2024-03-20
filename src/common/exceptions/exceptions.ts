@@ -9,20 +9,26 @@ const UserException = {
   NoExistsUser: createException('No Exists User', 400),
 };
 
-const ItemExeption = {
+const ItemException = {
   NoExistsItem: createException('No Exist Item', 400),
 };
 
-const ReservationExeption = {
+const ReservationException = {
   TransactionError: createException('Transaction Error', 400),
   NoExistsUserOrItem: createException('No Exist User Or Item', 400),
   NoExistsItemQuantity: createException('No Exist Item Quantity', 400),
 };
 
+const TransactionException = {};
+
+const MockException = {};
+
 export default {
   User: UserException,
-  Item: ItemExeption,
-  Reservation: ReservationExeption,
+  Item: ItemException,
+  Reservation: ReservationException,
+  Transaction: TransactionException,
+  Mock: MockException,
 
   createException,
   createBadRequestException: (message: string) => createException(message, 400),
