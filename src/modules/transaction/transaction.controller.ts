@@ -10,37 +10,37 @@ export class TransactionController {
     return this.transactionService.rollback();
   }
 
-  @Get('dirty-read')
+  @Get('phenomena/dirty-read')
   async dirtyRead() {
     return this.transactionService.dirtyReadTest();
   }
 
-  @Get('non-repeatable-read')
+  @Get('phenomena/non-repeatable-read')
   async nonRepeatableRead() {
     return this.transactionService.nonRepeatableReadTest();
   }
 
-  @Get('phantom-read')
+  @Get('phenomena/phantom-read')
   async phantomRead() {
     return this.transactionService.phantomReadTest();
   }
 
-  @Get('read-uncommitted')
+  @Get('isolation-level/read-uncommitted')
   async readUncomitted() {
     return this.transactionService.readUncomitted();
   }
 
-  @Get('read-committed')
+  @Get('isolation-level/read-committed')
   async readComitted() {
     return this.transactionService.readComitted();
   }
 
-  @Get('repeatable-read')
+  @Get('isolation-level/repeatable-read')
   async repeatableRead() {
     return this.transactionService.repeatableRead();
   }
 
-  @Get('serializable')
+  @Get('isolation-level/serializable')
   async serializable() {
     return this.transactionService.serializable();
   }
