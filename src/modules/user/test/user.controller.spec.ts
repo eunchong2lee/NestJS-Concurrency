@@ -3,6 +3,7 @@ import { UserController } from '../user.controller';
 import { UserService } from '../user.service';
 import { User } from '../entities/user.entity';
 import { IsString } from 'class-validator';
+import exceptions from 'src/common/exceptions/exceptions';
 
 export class createUserDto {
   @IsString()
