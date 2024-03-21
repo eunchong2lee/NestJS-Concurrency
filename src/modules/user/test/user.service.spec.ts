@@ -4,6 +4,7 @@ import { UserRepository } from '../user.repository';
 
 describe('UserService', () => {
   let service: UserService;
+  let repository: UserRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
