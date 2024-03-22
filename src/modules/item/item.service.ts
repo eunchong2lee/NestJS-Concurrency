@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Item } from './entities/item.entity';
 import { ItemRepository } from './item.repository';
-import exceptions from 'src/common/exceptions/exceptions';
+import exceptions from '../../common/exceptions/exceptions';
 import { createItemDto } from './dto/createItem.dto';
 
 @Injectable()

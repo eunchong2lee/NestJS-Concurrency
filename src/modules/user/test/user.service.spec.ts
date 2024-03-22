@@ -49,8 +49,6 @@ describe('UserService', () => {
     it('return user', async () => {
       const user: User = { id: 1, username: 'test', reservations: [] };
       jest.spyOn(repository, 'findOne').mockResolvedValue(user);
-      // spyOn Jest에서 제공하는 함수로 특정 객체의 메서드를 mock하거나 감시하는데 사용
-      // mockResolvedValue() promise 반환하는 값을 설정하고, 해당 값이 Promise로 reslove될 때를 대비해 사용
 
       const result = await service.findOne(user.id);
 
