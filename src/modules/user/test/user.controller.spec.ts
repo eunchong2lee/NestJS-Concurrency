@@ -2,14 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from '../user.controller';
 import { UserService } from '../user.service';
 import { User } from '../entities/user.entity';
-import { IsString } from 'class-validator';
-import exceptions from 'src/common/exceptions/exceptions';
-
-export class createUserDto {
-  @IsString()
-  username: string;
-}
-
+import { createUserDto } from '../dto/createUser.dto';
+import { UserRepository } from '../user.repository';
 describe('UserController', () => {
   let controller: UserController;
   let service: UserService;
@@ -17,7 +11,10 @@ describe('UserController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
-      providers: [UserService],
+      providers: [
+        UserService,
+        { provide: UserRepository, useValue: jest.fn() },
+      ],
     }).compile();
 
     controller = module.get<UserController>(UserController);
