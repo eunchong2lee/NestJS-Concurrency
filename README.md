@@ -1,11 +1,13 @@
 # NestJS-Concurrency
 
-`
-동시성 테스트를 위해서 간단한 가상 온라인 예약 시스템 API 구현
-트랜잭션 이상현상 Dirty-read, non-repeatable-read, phantom-read 직접 구현 및 transaction isolation level 적용 후 결과 비교
+`1. 동시성 테스트를 위해서 간단한 가상 온라인 예약 시스템 API 구현
 `
 
-기본적으로 예약 시스템이고 수량이 부족할 경우 자동적으로 다른 사람은 예약이 안되어야 하기 때문에
+
+`2. 트랜잭션 이상현상 Dirty-read, non-repeatable-read, phantom-read 직접 구현 및 transaction isolation level 적용 후 결과 비교
+`
+
+sample 예약 시스템이고 수량이 부족할 경우 자동적으로 다른 사람은 예약이 안되어야 하기 때문에
 ISOLATION LEVEL은 SERIALIZABLE로 설정
 
 데이터 동시성 제어를 위해서 LOCK을 사용
