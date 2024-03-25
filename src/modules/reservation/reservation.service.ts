@@ -7,7 +7,7 @@ import { UserRepository } from '../user/user.repository';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource, QueryRunner } from 'typeorm';
 import { Item } from '../item/entities/item.entity';
-import exceptions from 'src/common/exceptions/exceptions';
+import exceptions from '../../common/exceptions/exceptions';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 
 @Injectable()
