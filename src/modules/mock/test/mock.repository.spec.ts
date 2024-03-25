@@ -8,6 +8,16 @@ import { createMockDto } from '../dto/createMock.dto';
 describe('MockRepository', () => {
   let repository: MockRepository;
   let mockRepository: Repository<Mock>;
+  const dataSource = {
+    createEntityManager: jest.fn(),
+    createQueryRunner: jest.fn().mockReturnValue({
+      connect: jest.fn(),
+      startTransaction: jest.fn(),
+      commitTransaction: jest.fn(),
+      rollbackTransaction: jest.fn(),
+      release: jest.fn(),
+    }),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -17,10 +27,7 @@ describe('MockRepository', () => {
           provide: getRepositoryToken(Mock),
           useClass: Repository,
         },
-        {
-          provide: DataSource,
-          useClass: DataSource,
-        },
+        { provide: DataSource, useValue: dataSource },
       ],
     }).compile();
 
@@ -88,7 +95,68 @@ describe('MockRepository', () => {
 
       const result = await repository.delete(1);
 
-      expect(result).toEqual(mock);
+      expect(result).toEqual({});
+    });
+  });
+
+  describe('runInTransaction', () => {
+    it('commit', async () => {
+      const isolationLevel = 'READ COMMITTED';
+      const callback = jest.fn().mockResolvedValue('result');
+
+      const result = await repository.runTransaction(isolationLevel, callback);
+
+      expect(callback).toHaveBeenCalledWith(expect.any(Object));
+      expect(dataSource.createQueryRunner).toHaveBeenCalled();
+      expect(callback).toHaveBeenCalled();
+      expect(result).toBe('result');
+    });
+
+    it('rollback', async () => {
+      const isolationLevel = 'READ COMMITTED';
+      const callback = jest
+        .fn()
+        .mockRejectedValue(new Error('Transaction failed'));
+
+      await expect(
+        repository.runTransaction(isolationLevel, callback),
+      ).rejects.toThrow('Transaction failed');
+
+      expect(callback).toHaveBeenCalledWith(expect.any(Object));
+      expect(dataSource.createQueryRunner).toHaveBeenCalled();
+      expect(callback).toHaveBeenCalled();
+    });
+  });
+
+  describe('rollbackTransaction', () => {
+    it('alwayts rollback', async () => {
+      const isolationLevel = 'READ COMMITTED';
+      const callback = jest.fn().mockResolvedValue('result');
+
+      const result = await repository.rollbackTransaction(
+        isolationLevel,
+        callback,
+      );
+
+      expect(callback).toHaveBeenCalledWith(expect.any(Object));
+      expect(dataSource.createQueryRunner).toHaveBeenCalled();
+      expect(callback).toHaveBeenCalled();
+      expect(result).toBe('result');
+    });
+
+    it('should always rollback transaction on error', async () => {
+      const isolationLevel = 'READ COMMITTED';
+      const callback = jest
+        .fn()
+        .mockRejectedValue(new Error('Transaction failed'));
+
+      await expect(
+        repository.rollbackTransaction(isolationLevel, callback),
+      ).rejects.toThrow('Transaction failed');
+
+      expect(callback).toHaveBeenCalledWith(expect.any(Object));
+      expect(dataSource.createQueryRunner).toHaveBeenCalled();
+      expect(callback).toHaveBeenCalled();
     });
   });
 });
