@@ -17,17 +17,53 @@ pessimistic_write 같은 경우 트랜잭션이 읽은 데이터를 해당 트�
 
 
 ## Flow Chart
+red line is Drity-Read
+blue line is Non-Repeatable-Read
+black line is Phantom-Read
 
+<img width="751" alt="스크린샷 2024-03-25 오후 8 06 14" src="https://github.com/eunchong2lee/NestJS-Concurrency/assets/104499306/ab369edf-fdaf-4f24-a01a-5d05ffd7f241">
 
-
-
-## Swagger
 
 ### run
 `
 yarn install
-yarn build
 `
+
+`
+yarn run start
+`
+
+
+## Run API & Compare Result
+
+### Before run every API
+
+
+/mocks/initialize
+
+
+### Dirty Read
+/transactions/phenomena/dirty-read
+
+/transactions/isolation-level/read-uncommitted
+
+/transactions/isolation-level/read-committed
+
+### Non Repeatable Read
+/transactions/phenomena/non-repeatable-read
+
+/transactions/isolation-level/repeatable-read
+
+
+### Phantom-Read
+/transactions/phenomena/phantom-read
+
+/transactions/isolation-level/serializable
+
+
+## Swagger
+
+
 
 url : localhost:3000/api-docs#/
 <img width="1381" alt="스크린샷 2024-03-25 오후 7 32 32" src="https://github.com/eunchong2lee/NestJS-Concurrency/assets/104499306/9408a2c1-8c42-46d2-896b-7af114028c23">
