@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TransactionController } from '../transaction.controller';
 import { TransactionService } from '../transaction.service';
 import { Mock } from '../../mock/entities/mock.entity';
+import { MockRepository } from '../../mock/mock.repository';
 
 describe('TransactionController', () => {
   let controller: TransactionController;
@@ -12,7 +13,7 @@ describe('TransactionController', () => {
       controllers: [TransactionController],
       providers: [
         TransactionService,
-        { provide: TransactionService, useValue: jest.fn() },
+        { provide: MockRepository, useValue: {} },
       ],
     }).compile();
 
@@ -36,9 +37,7 @@ describe('TransactionController', () => {
           value: 200,
         },
       };
-      jest
-        .spyOn(controller, 'dirtyRead')
-        .mockImplementation(async () => result);
+      jest.spyOn(service, 'dirtyReadTest').mockResolvedValueOnce(result);
 
       expect(await controller.dirtyRead()).toEqual(result);
     });
@@ -57,8 +56,8 @@ describe('TransactionController', () => {
         },
       };
       jest
-        .spyOn(controller, 'nonRepeatableRead')
-        .mockImplementation(async () => result);
+        .spyOn(service, 'nonRepeatableReadTest')
+        .mockResolvedValueOnce(result);
 
       expect(await controller.nonRepeatableRead()).toEqual(result);
     });
@@ -100,9 +99,7 @@ describe('TransactionController', () => {
           },
         ],
       };
-      jest
-        .spyOn(controller, 'phantomRead')
-        .mockImplementation(async () => result);
+      jest.spyOn(service, 'phantomReadTest').mockResolvedValueOnce(result);
 
       expect(await controller.phantomRead()).toEqual(result);
     });
@@ -120,9 +117,7 @@ describe('TransactionController', () => {
           value: 200,
         },
       };
-      jest
-        .spyOn(controller, 'readUncomitted')
-        .mockImplementation(async () => result);
+      jest.spyOn(service, 'readUncomitted').mockResolvedValueOnce(result);
 
       expect(await controller.readUncomitted()).toEqual(result);
     });
@@ -140,9 +135,7 @@ describe('TransactionController', () => {
           value: 200,
         },
       };
-      jest
-        .spyOn(controller, 'readComitted')
-        .mockImplementation(async () => result);
+      jest.spyOn(service, 'readComitted').mockResolvedValueOnce(result);
 
       expect(await controller.readComitted()).toEqual(result);
     });
@@ -160,9 +153,7 @@ describe('TransactionController', () => {
           value: 20,
         },
       };
-      jest
-        .spyOn(controller, 'repeatableRead')
-        .mockImplementation(async () => result);
+      jest.spyOn(service, 'repeatableRead').mockResolvedValueOnce(result);
 
       expect(await controller.repeatableRead()).toEqual(result);
     });
@@ -200,9 +191,7 @@ describe('TransactionController', () => {
           },
         ],
       };
-      jest
-        .spyOn(controller, 'serializable')
-        .mockImplementation(async () => result);
+      jest.spyOn(service, 'serializable').mockResolvedValueOnce(result);
 
       expect(await controller.serializable()).toEqual(result);
     });

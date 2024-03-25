@@ -13,7 +13,16 @@ describe('ItemController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ItemController],
       providers: [
-        ItemService,
+        {
+          provide: ItemService,
+          useValue: {
+            findAll: jest.fn(),
+            findOne: jest.fn(),
+            create: jest.fn(),
+            remove: jest.fn(),
+          },
+        },
+
         { provide: ItemRepository, useValue: jest.fn() },
       ],
     }).compile();

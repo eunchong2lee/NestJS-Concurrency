@@ -47,7 +47,7 @@ describe('ReservationController', () => {
           reservation_date: new Date(),
         },
       ];
-      jest.spyOn(controller, 'findAll').mockResolvedValueOnce(reservations);
+      jest.spyOn(service, 'findAll').mockResolvedValueOnce(reservations);
 
       expect(await controller.findAll()).toEqual(reservations);
     });
@@ -59,7 +59,7 @@ describe('ReservationController', () => {
         id: 1,
         reservation_date: new Date(),
       };
-      jest.spyOn(controller, 'findOne').mockResolvedValueOnce(reservation);
+      jest.spyOn(service, 'findOne').mockResolvedValueOnce(reservation);
 
       expect(await controller.findOne(1)).toEqual(reservation);
     });
@@ -86,7 +86,7 @@ describe('ReservationController', () => {
           reservations: [],
         },
       };
-      jest.spyOn(controller, 'create').mockResolvedValueOnce(result);
+      jest.spyOn(service, 'create').mockResolvedValueOnce(result);
 
       expect(await controller.create(createReservationDto)).toEqual(result);
     });
@@ -94,7 +94,7 @@ describe('ReservationController', () => {
 
   describe('remove', () => {
     it('return remove', async () => {
-      jest.spyOn(controller, 'remove').mockResolvedValueOnce();
+      jest.spyOn(service, 'remove').mockResolvedValueOnce();
 
       expect(await controller.remove(1));
     });
