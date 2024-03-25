@@ -12,6 +12,9 @@ describe('MockRepository', () => {
     createEntityManager: jest.fn(),
     createQueryRunner: jest.fn().mockReturnValue({
       connect: jest.fn(),
+      manager: {
+        update: jest.fn(),
+      },
       startTransaction: jest.fn(),
       commitTransaction: jest.fn(),
       rollbackTransaction: jest.fn(),
