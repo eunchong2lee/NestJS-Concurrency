@@ -1,15 +1,75 @@
 # NestJS-Concurrency
 
-`
-동시성 테스트를 위해서 간단한 가상 온라인 예약 시스템 API 구현
+`1. 동시성 테스트를 위해서 간단한 가상 온라인 예약 시스템 API 구현
 `
 
-기본적으로 예약 시스템이고 수량이 부족할 경우 자동적으로 다른 사람은 예약이 안되어야 하기 때문에
+
+`2. 트랜잭션 이상현상 Dirty-read, non-repeatable-read, phantom-read 직접 구현 및 transaction isolation level 적용 후 결과 비교
+`
+
+sample 예약 시스템이고 수량이 부족할 경우 자동적으로 다른 사람은 예약이 안되어야 하기 때문에
 ISOLATION LEVEL은 SERIALIZABLE로 설정
 
 데이터 동시성 제어를 위해서 LOCK을 사용
 LOCK은 비관적 락을 사용하였고 그 중에 pessimistic_write 사용
 pessimistic_write 같은 경우 트랜잭션이 읽은 데이터를 해당 트랜잭션이 종료될 때까지 다른 트랜잭션이 읽기, 쓰기, 수정하는 것을 방지하며 접근하지 못하도록 하기 때문에 사용
+
+
+
+## Flow Chart
+red line is Drity-Read
+blue line is Non-Repeatable-Read
+black line is Phantom-Read
+
+<img width="751" alt="스크린샷 2024-03-25 오후 8 06 14" src="https://github.com/eunchong2lee/NestJS-Concurrency/assets/104499306/ab369edf-fdaf-4f24-a01a-5d05ffd7f241">
+
+
+### run
+`
+yarn install
+`
+
+`
+yarn run start
+`
+
+
+## Run API & Compare Result
+
+### Before run every API
+
+
+/mocks/initialize
+
+
+### Dirty Read
+/transactions/phenomena/dirty-read
+
+/transactions/isolation-level/read-uncommitted
+
+/transactions/isolation-level/read-committed
+
+### Non Repeatable Read
+/transactions/phenomena/non-repeatable-read
+
+/transactions/isolation-level/repeatable-read
+
+
+### Phantom-Read
+/transactions/phenomena/phantom-read
+
+/transactions/isolation-level/serializable
+
+
+## Swagger
+
+
+
+url : localhost:3000/api-docs#/
+<img width="1381" alt="스크린샷 2024-03-25 오후 7 32 32" src="https://github.com/eunchong2lee/NestJS-Concurrency/assets/104499306/9408a2c1-8c42-46d2-896b-7af114028c23">
+
+
+
 
 ## 트랜잭션이란?
 `
