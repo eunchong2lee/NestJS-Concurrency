@@ -15,11 +15,11 @@ export class Reservation {
   id: number;
 
   @ManyToOne(() => User, (user) => user.reservations)
-  user: User;
+  user?: User;
 
   @ManyToOne(() => Item, (item) => item.reservations)
   @JoinColumn({ name: 'item_id' })
-  item: Item;
+  item?: Item;
 
   @CreateDateColumn()
   reservation_date: Date;
